@@ -1,37 +1,47 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intorduction_screen/view/Home%20Page/ui.dart';
 
-FlutterLocalNotificationsPlugin notificationsPlugin = FlutterLocalNotificationsPlugin();
+FlutterLocalNotificationsPlugin notificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
-void main()async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  AndroidInitializationSettings androidInitializationSettings = AndroidInitializationSettings("@mipmap/ic_launcher.png");
-
+  AndroidInitializationSettings androidInitializationSettings =
+      AndroidInitializationSettings("@mipmap/ic_launcher.png");
 
   InitializationSettings initializationSettings = InitializationSettings(
-    android: androidInitializationSettings
+    android: androidInitializationSettings,
   );
-  bool? initialized = await notificationsPlugin.initialize(settings: initializationSettings);
+  bool? initialized = await notificationsPlugin.initialize(
+    settings: initializationSettings,
+  );
+  log("Notification = $initialized");
 
-
-  runApp( MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  void showNotification() {
+    AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails(
+          "Local Notification ",
+          "nottification",
+          priority: Priority.max,
+          enableVibration: true,
+        );
+  }
 
-   MyApp({super.key});
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
+      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
       home: homePage(),
     );
   }
 }
-
