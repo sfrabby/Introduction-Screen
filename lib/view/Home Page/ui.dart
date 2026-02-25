@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ElevatedButton(onPressed: showNotification, child: Text("Local Notification ")),
+          ElevatedButton(onPressed: showNotification , child: Text("Local Notification ")),
         ],
       ),
     );
