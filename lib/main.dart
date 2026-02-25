@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intorduction_screen/view/Home%20Page/ui.dart';
 
-void main() {
-  runApp(const MyApp());
+void main()async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
 
-  // This widget is the root of your application.
+   MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
