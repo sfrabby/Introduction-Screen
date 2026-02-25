@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:intorduction_screen/view/Home%20Page/ui.dart';
+import 'package:intorduction_screen/view/Inrtroduction%20Page/ui.dart';
 
 FlutterLocalNotificationsPlugin notificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -24,16 +24,6 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  void showNotification() {
-    AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails(
-          "Local Notification ",
-          "nottification",
-          priority: Priority.max,
-          enableVibration: true,
-        );
-  }
-
   MyApp({super.key});
 
   @override
@@ -41,7 +31,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: homePage(),
+      home: IntroductionPage(),
     );
   }
 }
