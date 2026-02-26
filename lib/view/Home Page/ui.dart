@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intorduction_screen/main.dart';
@@ -30,10 +32,20 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(backgroundColor: Colors.teal),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ElevatedButton(onPressed: showNotification , child: Text("Local Notification ")),
-        ],
+      ElevatedButton(onPressed: () async {
+        DateTime?  date = await showDatePicker(context: context, firstDate: DateTime.now().subtract(Duration(days: 365)), lastDate: DateTime.now());
+        print(date);
+      } , child: Text("Date picker ")),
+
+        ElevatedButton(onPressed: showNotification , child: Text("Local Notification ")),
+
+    ElevatedButton(onPressed: showNotification , child: Text("Local Notification ")),
+
+    ],
       ),
     );
   }
