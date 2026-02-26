@@ -10,7 +10,7 @@ FlutterLocalNotificationsPlugin notificationsPlugin =
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   AndroidInitializationSettings androidInitializationSettings =
-      AndroidInitializationSettings("@mipmap/ic_launcher.png");
+      AndroidInitializationSettings("@mipmap/ic_launcher");
 
   InitializationSettings initializationSettings = InitializationSettings(
     android: androidInitializationSettings,

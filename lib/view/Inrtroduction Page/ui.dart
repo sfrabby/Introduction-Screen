@@ -14,7 +14,7 @@ class IntroductionPage extends StatelessWidget {
         title: "Title of blue page",
         body: "Welcome to the app! This is a description on a page with a blue background.",
         image: Center(
-          child: Image.network("https://png.pngtree.com/png-clipart/20200701/original/pngtree-business-man-character-introduction-png-image_5422894.jpg", height: 175.0),
+          child: Image.network("https://i.pinimg.com/474x/5e/79/d9/5e79d99c2e67bbee4ce4598940cc960d.jpg", height: 200.0),
         ),
         decoration: const PageDecoration(
           pageColor: Colors.green,
@@ -24,7 +24,7 @@ class IntroductionPage extends StatelessWidget {
         title: "Title of blue page",
         body: "Welcome to the app! This is a description on a page with a blue background.",
         image: Center(
-          child: Image.network("https://example.com/image.png", height: 175.0),
+          child: Image.network("https://cdn.pixabay.com/photo/2023/06/28/08/13/public-speaking-8093767_1280.png", height: 200.0),
         ),
         decoration: const PageDecoration(
           pageColor: Colors.blue,
@@ -34,7 +34,7 @@ class IntroductionPage extends StatelessWidget {
         title: "Title of blue page",
         body: "Welcome to the app! This is a description on a page with a blue background.",
         image: Center(
-          child: Image.network("https://example.com/image.png", height: 175.0),
+          child: Image.network("https://i.pinimg.com/736x/3e/aa/30/3eaa30f9297b0ded90ea098519283e44.jpg", height: 200.0),
         ),
         decoration: const PageDecoration(
           pageColor: Colors.blue,
