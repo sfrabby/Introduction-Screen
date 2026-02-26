@@ -1,9 +1,11 @@
-import 'dart:developer';
+import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intorduction_screen/main.dart';
 import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:intorduction_screen/main.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -20,15 +22,16 @@ class HomePage extends StatelessWidget {
     NotificationDetails notificationDetails = NotificationDetails(
       android: androidNotificationDetails,
     );
-    DateTime? scheduldate = DateTime.now().add(Duration(seconds: 5));
+    DateTime scheduledTime = tz.TZDateTime.now(
+      tz.local,
+    ).add(Duration(seconds: 5));
     await notificationsPlugin.zonedSchedule(
-      tz.TZDateTime.from(scheduldate, tz.local),
-      id: 0,
-      body: "This is Local Notification",
-      notificationDetails: notificationDetails,
+      id: 1,
       title: "Simple",
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle, scheduledDate: scheduldate,
-
+      body: "This is Local Notification",
+      scheduledDate: tz.TZDateTime.from(scheduledTime, tz.local),
+      notificationDetails: notificationDetails,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );
   }
 
