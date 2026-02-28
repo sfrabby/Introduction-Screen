@@ -66,7 +66,7 @@ class HomePage extends StatelessWidget {
             onPressed: (){
               Get.to(()=>MapPrac());
             },
-            child: Text("Local Notification "),
+            child: Text("Map screen "),
           ),
 
           ElevatedButton(
