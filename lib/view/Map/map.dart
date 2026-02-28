@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 
 class MapPrac extends StatelessWidget {
@@ -31,7 +32,13 @@ class MapPrac extends StatelessWidget {
           Container(
             height: 300,
             width: 300,
-            child: FlutterMa,
+            child: FlutterMap(
+                options: MapOptions(
+                  initialCenter: L
+                ),
+                children: [
+              TileLayer(urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',)
+            ]),
           )
         ],
       )),
