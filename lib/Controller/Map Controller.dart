@@ -4,7 +4,6 @@ import 'package:latlong2/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
 
 class MapPracController extends GetxController {
-  // অবজারভেবল ভ্যারিয়েবল (ম্যাপের কেন্দ্র)
   var currentCenter = LatLng(23.8103, 90.4125).obs;
   final MapController flutterMapController = MapController();
 
@@ -20,10 +19,8 @@ class MapPracController extends GetxController {
         locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
       );
 
-      // ভ্যালু আপডেট করা
       currentCenter.value = LatLng(position.latitude, position.longitude);
 
-      // ম্যাপকে মুভ করানো
       flutterMapController.move(currentCenter.value, 15.0);
     }
   }
