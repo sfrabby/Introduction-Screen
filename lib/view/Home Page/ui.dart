@@ -6,6 +6,9 @@ import 'package:intorduction_screen/main.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:intorduction_screen/main.dart';
+import 'package:get/get.dart';
+
+import '../Map/map.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -14,7 +17,7 @@ class HomePage extends StatelessWidget {
     AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails(
           "Local Notification ",
-          "nottification",
+          "notification",
           priority: Priority.max,
           enableVibration: true,
           importance: Importance.max,
@@ -60,7 +63,9 @@ class HomePage extends StatelessWidget {
           ),
 
           ElevatedButton(
-            onPressed: showNotification,
+            onPressed: (){
+              Get.to(()=>MapPrac());
+            },
             child: Text("Local Notification "),
           ),
 

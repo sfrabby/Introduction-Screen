@@ -37,6 +37,8 @@ dependencies:
   introduction_screen: ^4.0.0
   flutter_local_notifications: ^20.1.0
   timezone: ^0.10.0
+  geolocator: ^14.0.2
+  get: ^4.7.3
 
 
 dev_dependencies:
