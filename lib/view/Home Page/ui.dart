@@ -63,8 +63,8 @@ class HomePage extends StatelessWidget {
           ),
 
           ElevatedButton(
-            onPressed: (){
-              Get.to(()=>MapPrac());
+            onPressed: () {
+              Get.to(() => MapPracScreen());
             },
             child: Text("Map screen "),
           ),
