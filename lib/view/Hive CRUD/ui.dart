@@ -7,9 +7,18 @@ class HiveNoteApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(centerTitle: true,
-      backgroundColor: Colors.teal,
-      title: Text("Hive Database"),),
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.teal,
+        title: Text(
+          "Hive Database",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 23,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
     );
   }
 }
