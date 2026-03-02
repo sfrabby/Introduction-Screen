@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 
 class HiveNoteApp extends StatelessWidget {
-  const HiveNoteApp({super.key});
+   HiveNoteApp({super.key});
 
+
+  TextEditingController titleC = TextEditingController();
+  TextEditingController taskC = TextEditingController();
+
+  var taskbox = Hive.box("task");
+
+  createdData(Map<String, dynamic>data)async{
+    await taskbox.add(data);
+  }
   // বটম শিট ওপেন করার ফাংশন
   void showAddNoteSheet() {
     Get.bottomSheet(
@@ -27,6 +38,7 @@ class HiveNoteApp extends StatelessWidget {
               const SizedBox(height: 20),
               // Title TextField
               TextField(
+                controller: titleC,
                 decoration: InputDecoration(
                   labelText: "Title",
                   hintText: "Enter note title",
@@ -39,6 +51,7 @@ class HiveNoteApp extends StatelessWidget {
               const SizedBox(height: 15),
               // Task TextField
               TextField(
+                controller: taskC,
                 maxLines: 3,
                 decoration: InputDecoration(
                   labelText: "Task",

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:intorduction_screen/view/Inrtroduction%20Page/ui.dart';
 import 'package:timezone/data/latest.dart' ;
 
@@ -13,6 +14,8 @@ FlutterLocalNotificationsPlugin notificationsPlugin =
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await Hive.openBox("task");
    initializeTimeZones();
   AndroidInitializationSettings androidInitializationSettings =
       AndroidInitializationSettings("@mipmap/ic_launcher");
