@@ -1,20 +1,23 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 
 class HiveNoteApp extends StatelessWidget {
-   HiveNoteApp({super.key});
-
+  HiveNoteApp({super.key});
 
   TextEditingController titleC = TextEditingController();
   TextEditingController taskC = TextEditingController();
 
   var taskbox = Hive.box("task");
 
-  createdData(Map<String, dynamic>data)async{
+  createdData(Map<String, dynamic> data) async {
     await taskbox.add(data);
+    log(taskbox.length.toString());
   }
+
   // বটম শিট ওপেন করার ফাংশন
   void showAddNoteSheet() {
     Get.bottomSheet(
@@ -69,7 +72,11 @@ class HiveNoteApp extends StatelessWidget {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () {
-                    // এখানে নোট সেভ করার লজিক হবে
+                  var data = {
+                    'title' : titleC.text,
+                    'task' : taskC.text,
+                  };
+                  createdData(data);
                     Get.back(); // বটম শিট বন্ধ করা
                     Get.snackbar(
                       "Success",
@@ -116,9 +123,7 @@ class HiveNoteApp extends StatelessWidget {
           ),
         ),
       ),
-      body: const Center(
-        child: Text("Click the + button to add a note"),
-      ),
+      body: const Center(child: Text("Click the + button to add a note")),
       floatingActionButton: FloatingActionButton(
         onPressed: showAddNoteSheet, // ফাংশন কল করা হলো
         backgroundColor: Colors.teal,
