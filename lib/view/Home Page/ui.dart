@@ -8,6 +8,7 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:intorduction_screen/main.dart';
 import 'package:get/get.dart';
 
+import '../Hive CRUD/ui.dart';
 import '../Map/map.dart';
 
 class HomePage extends StatelessWidget {
@@ -70,8 +71,10 @@ class HomePage extends StatelessWidget {
           ),
 
           ElevatedButton(
-            onPressed: showNotification,
-            child: Text("Local Notification "),
+            onPressed: (){
+              Get.to(()=>HiveNoteApp());
+            },
+            child: Text("Hive "),
           ),
         ],
       ),
