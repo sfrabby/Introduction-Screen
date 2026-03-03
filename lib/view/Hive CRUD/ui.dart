@@ -35,6 +35,7 @@ class _HiveNoteAppState extends State<HiveNoteApp> {
     setState(() {
       ourTask = data.reversed.toList();
       log(ourTask.toString());
+
     });
 
   }
@@ -148,7 +149,13 @@ class _HiveNoteAppState extends State<HiveNoteApp> {
           ),
         ),
       ),
-      body: const Center(child: Text("Click the + button to add a note")),
+      body: ListView.builder(
+        itemCount: ourTask.length,
+
+        itemBuilder: (context, index) {
+          var currentItem = ourTask[index];
+        return ListTile();
+      },),
       floatingActionButton: FloatingActionButton(
         onPressed: showAddNoteSheet, // ফাংশন কল করা হলো
         backgroundColor: Colors.teal,
