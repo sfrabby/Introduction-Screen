@@ -154,7 +154,10 @@ class _HiveNoteAppState extends State<HiveNoteApp> {
 
         itemBuilder: (context, index) {
           var currentItem = ourTask[index];
-        return ListTile();
+        return ListTile(
+          title: Text(currentItem['task']),
+          subtitle: Text(currentItem['task']),
+        );
       },),
       floatingActionButton: FloatingActionButton(
         onPressed: showAddNoteSheet, // ফাংশন কল করা হলো
