@@ -5,17 +5,45 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 
-class HiveNoteApp extends StatelessWidget {
+class HiveNoteApp extends StatefulWidget {
   HiveNoteApp({super.key});
 
+  @override
+  State<HiveNoteApp> createState() => _HiveNoteAppState();
+}
+
+class _HiveNoteAppState extends State<HiveNoteApp> {
   TextEditingController titleC = TextEditingController();
+
   TextEditingController taskC = TextEditingController();
 
   var taskbox = Hive.box("task");
 
+  List<Map<String, dynamic>> ourTask = [];
+
   createdData(Map<String, dynamic> data) async {
     await taskbox.add(data);
     log(taskbox.length.toString());
+  }
+
+  readData() async {
+    var data = taskbox.keys.map((keys) {
+      final item = taskbox.get(keys);
+      return {'keys': keys, 'title': item['title'], 'task': item['task']};
+    }).toList();
+
+    setState(() {
+      ourTask = data.reversed.toList();
+      log(ourTask.toString());
+    });
+
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    readData();
+
   }
 
   // বটম শিট ওপেন করার ফাংশন
@@ -72,11 +100,8 @@ class HiveNoteApp extends StatelessWidget {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () {
-                  var data = {
-                    'title' : titleC.text,
-                    'task' : taskC.text,
-                  };
-                  createdData(data);
+                    var data = {'title': titleC.text, 'task': taskC.text};
+                    createdData(data);
                     Get.back(); // বটম শিট বন্ধ করা
                     Get.snackbar(
                       "Success",
