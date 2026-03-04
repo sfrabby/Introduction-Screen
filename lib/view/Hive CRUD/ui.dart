@@ -37,12 +37,11 @@ class _HiveNoteAppState extends State<HiveNoteApp> {
     setState(() {
       ourTask = data.reversed.toList();
       log(ourTask.toString());
-
     });
 
-     var index = 0;
-
+    var index = 0;
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -157,25 +156,39 @@ class _HiveNoteAppState extends State<HiveNoteApp> {
 
         itemBuilder: (context, index) {
           var currentItem = ourTask[index];
-        return Card(
-          color: Colors.tealAccent,
-          child: ListTile(
-            leading: CircleAvatar(backgroundColor: Colors.teal,radius: 50, child: Text("${index +1}"),),
-            title: Text(currentItem['task'], style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),),
-            subtitle: Text(currentItem['task']),
-            trailing: Text(
-              DateFormat('hh:mm a \n dd-MMM-yyyy').format(DateTime.now()),
-              textAlign: TextAlign.end,
-              style: const TextStyle(fontSize: 12, color: Colors.grey),
-            ),          ),
-        );
-      },),
+          return Card(
+            color: Colors.tealAccent,
+            child: ListTile(
+              leading: Container(
+                alignment: Alignment.center,
+                child: Text("${index +1}", style: TextStyle(fontSize: 20),),
+                height: 120,
+                width: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.teal,
+                ),
+              ),
+              title: Text(
+                currentItem['task'],
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+              ),
+              subtitle: Text(currentItem['task']),
+              trailing: Text(
+                DateFormat('hh:mm a \n dd-MMM-yyyy').format(DateTime.now()),
+                textAlign: TextAlign.end,
+                style: const TextStyle(fontSize: 12, color: Colors.grey),
+              ),
+            ),
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
+        onPressed: () {
           showAddNoteSheet();
           titleC.clear();
           taskC.clear();
-        } ,
+        },
         // ফাংশন কল করা হলো
         backgroundColor: Colors.teal,
         child: const Icon(Icons.add, color: Colors.white),
