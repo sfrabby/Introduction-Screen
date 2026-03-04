@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:intl/intl.dart';
 
 class HiveNoteApp extends StatefulWidget {
   HiveNoteApp({super.key});
@@ -39,13 +40,14 @@ class _HiveNoteAppState extends State<HiveNoteApp> {
 
     });
 
+     var index = 0;
+
   }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     readData();
-
   }
 
   // বটম শিট ওপেন করার ফাংশন
@@ -155,13 +157,25 @@ class _HiveNoteAppState extends State<HiveNoteApp> {
 
         itemBuilder: (context, index) {
           var currentItem = ourTask[index];
-        return ListTile(
-          title: Text(currentItem['task']),
-          subtitle: Text(currentItem['task']),
+        return Card(
+          color: Colors.tealAccent,
+          child: ListTile(
+            leading: CircleAvatar(backgroundColor: Colors.teal,radius: 50, child: Text("${index +1}"),),
+            title: Text(currentItem['task'], style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),),
+            subtitle: Text(currentItem['task']),
+            trailing: Text(
+              DateFormat('hh:mm a \n dd-MMM-yyyy').format(DateTime.now()),
+              textAlign: TextAlign.end,
+              style: const TextStyle(fontSize: 12, color: Colors.grey),
+            ),          ),
         );
       },),
       floatingActionButton: FloatingActionButton(
-        onPressed: showAddNoteSheet ,
+        onPressed: (){
+          showAddNoteSheet();
+          titleC.clear();
+          taskC.clear();
+        } ,
         // ফাংশন কল করা হলো
         backgroundColor: Colors.teal,
         child: const Icon(Icons.add, color: Colors.white),
