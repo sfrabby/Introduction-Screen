@@ -23,6 +23,7 @@ class _HiveNoteAppState extends State<HiveNoteApp> {
 
   createdData(Map<String, dynamic> data) async {
     await taskbox.add(data);
+    readData();
     log(taskbox.length.toString());
   }
 
@@ -160,7 +161,8 @@ class _HiveNoteAppState extends State<HiveNoteApp> {
         );
       },),
       floatingActionButton: FloatingActionButton(
-        onPressed: showAddNoteSheet, // ফাংশন কল করা হলো
+        onPressed: showAddNoteSheet ,
+        // ফাংশন কল করা হলো
         backgroundColor: Colors.teal,
         child: const Icon(Icons.add, color: Colors.white),
       ),
