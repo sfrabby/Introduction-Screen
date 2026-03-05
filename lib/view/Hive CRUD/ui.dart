@@ -42,6 +42,11 @@ class _HiveNoteAppState extends State<HiveNoteApp> {
     var index = 0;
   }
 
+  updateData(int? key, Map<String,dynamic>data)async{
+    taskbox.put(key, data);
+
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -174,11 +179,19 @@ class _HiveNoteAppState extends State<HiveNoteApp> {
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
               ),
               subtitle: Text(currentItem['task']),
-              trailing: Text(
-                DateFormat('hh:mm a \n dd-MMM-yyyy').format(DateTime.now()),
-                textAlign: TextAlign.end,
-                style: const TextStyle(fontSize: 12, color: Colors.grey),
-              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                IconButton(onPressed: (){
+                  showAddNoteSheet();
+                }, icon: Icon(Icons.edit)),
+                  IconButton(onPressed: (){}, icon: Icon(Icons.delete)),
+                  Text(
+                    DateFormat('hh:mm a \n dd-MMM-yyyy').format(DateTime.now()),
+                    textAlign: TextAlign.end,
+                    style: const TextStyle(fontSize: 8, color: Colors.grey),
+                  ),
+              ],),
             ),
           );
         },
