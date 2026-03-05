@@ -55,7 +55,14 @@ class _HiveNoteAppState extends State<HiveNoteApp> {
   }
 
   // বটম শিট ওপেন করার ফাংশন
-  void showAddNoteSheet() {
+  void showAddNoteSheet(int? key) {
+    titleC.clear();
+    taskC.clear();
+    if( key != null){
+      final item = ourTask.firstWhere((element)=> element['key']== key);
+      titleC.text = item ['title'];
+      taskC.text = item['task'];
+    }
     Get.bottomSheet(
       Container(
         padding: const EdgeInsets.all(20),
@@ -199,8 +206,6 @@ class _HiveNoteAppState extends State<HiveNoteApp> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showAddNoteSheet();
-          titleC.clear();
-          taskC.clear();
         },
         // ফাংশন কল করা হলো
         backgroundColor: Colors.teal,
