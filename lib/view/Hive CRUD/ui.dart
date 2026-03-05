@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -7,7 +6,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
 
 class HiveNoteApp extends StatefulWidget {
-  HiveNoteApp({super.key});
+  const HiveNoteApp({super.key});
 
   @override
   State<HiveNoteApp> createState() => _HiveNoteAppState();
@@ -15,199 +14,142 @@ class HiveNoteApp extends StatefulWidget {
 
 class _HiveNoteAppState extends State<HiveNoteApp> {
   TextEditingController titleC = TextEditingController();
-
   TextEditingController taskC = TextEditingController();
 
   var taskbox = Hive.box("task");
-
   List<Map<String, dynamic>> ourTask = [];
 
+  // ১. ডাটা তৈরি (Create)
   createdData(Map<String, dynamic> data) async {
+    data['time'] = DateTime.now().toString(); // সময় সেভ করছি
     await taskbox.add(data);
     readData();
-    log(taskbox.length.toString());
   }
 
+  // ২. ডাটা পড়া (Read)
   readData() async {
-    var data = taskbox.keys.map((keys) {
-      final item = taskbox.get(keys);
-      return {'keys': keys, 'title': item['title'], 'task': item['task']};
+    var data = taskbox.keys.map((key) {
+      final item = taskbox.get(key);
+      return {
+        'keys': key, // Hive এর নিজস্ব ইউনিক কি
+        'title': item['title'],
+        'task': item['task'],
+        'time': item['time'] ?? DateTime.now().toString(),
+      };
     }).toList();
 
     setState(() {
-      ourTask = data.reversed.toList();
-      log(ourTask.toString());
+      ourTask = data.reversed.toList(); // নতুন নোট উপরে দেখাবে
     });
-
-    var index = 0;
   }
 
-  updateData(int? key, Map<String,dynamic>data)async{
-    taskbox.put(key, data);
+  // ৩. ডাটা আপডেট (Update)
+  updateData(int key, Map<String, dynamic> data) async {
+    data['time'] = DateTime.now().toString(); // আপডেটের সময়ও আপডেট হবে
+    await taskbox.put(key, data);
+    readData();
+  }
 
+  // ৪. ডাটা ডিলিট (Delete)
+  deleteData(int key) async {
+    await taskbox.delete(key);
+    readData();
+    Get.snackbar("Deleted", "Note removed successfully", snackPosition: SnackPosition.BOTTOM);
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     readData();
   }
 
-  // বটম শিট ওপেন করার ফাংশন
-  void showAddNoteSheet(int? key) {
-    titleC.clear();
-    taskC.clear();
-    if( key != null){
-      final item = ourTask.firstWhere((element)=> element['key']== key);
-      titleC.text = item ['title'];
+  // বটম শিট ফাংশন (Add/Update উভয়ের জন্য)
+  void showAddNoteSheet({int? key}) {
+    if (key != null) {
+      // এডিট মোড: আগের ডাটা খুঁজে বের করা
+      final item = ourTask.firstWhere((element) => element['keys'] == key);
+      titleC.text = item['title'];
       taskC.text = item['task'];
+    } else {
+      // অ্যাড মোড: ইনপুট বক্স খালি করা
+      titleC.clear();
+      taskC.clear();
     }
+
     Get.bottomSheet(
       Container(
         padding: const EdgeInsets.all(20),
         decoration: const BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(25),
-            topRight: Radius.circular(25),
-          ),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),
         ),
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                "Add New Note",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
+              Text(key == null ? "Add New Note" : "Update Note", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               const SizedBox(height: 20),
-              // Title TextField
-              TextField(
-                controller: titleC,
-                decoration: InputDecoration(
-                  labelText: "Title",
-                  hintText: "Enter note title",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  prefixIcon: const Icon(Icons.title),
-                ),
-              ),
+              TextField(controller: titleC, decoration: const InputDecoration(labelText: "Title", border: OutlineInputBorder())),
               const SizedBox(height: 15),
-              // Task TextField
-              TextField(
-                controller: taskC,
-                maxLines: 3,
-                decoration: InputDecoration(
-                  labelText: "Task",
-                  hintText: "Write your task here...",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  prefixIcon: const Icon(Icons.description),
-                ),
-              ),
+              TextField(controller: taskC, maxLines: 3, decoration: const InputDecoration(labelText: "Task", border: OutlineInputBorder())),
               const SizedBox(height: 20),
-              // Add Button
               SizedBox(
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () {
                     var data = {'title': titleC.text, 'task': taskC.text};
-                    createdData(data);
-                    Get.back(); // বটম শিট বন্ধ করা
-                    Get.snackbar(
-                      "Success",
-                      "Note added successfully",
-                      snackPosition: SnackPosition.BOTTOM,
-                      backgroundColor: Colors.teal,
-                      colorText: Colors.white,
-                    );
+                    if (key == null) {
+                      createdData(data);
+                    } else {
+                      updateData(key, data);
+                    }
+                    Get.back();
+                    Get.snackbar("Success", key == null ? "Note added" : "Note updated", snackPosition: SnackPosition.BOTTOM);
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.teal,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: const Text(
-                    "Add Note",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
+                  child: Text(key == null ? "Add Note" : "Update Note", style: const TextStyle(color: Colors.white)),
                 ),
               ),
-              const SizedBox(height: 10),
             ],
           ),
         ),
       ),
-      isScrollControlled: true, // কিবোর্ড আসলে যেন স্ক্রিন উপরে উঠে
+      isScrollControlled: true,
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.teal,
-        elevation: 0,
-        title: const Text(
-          "Hive Database",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 23,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ),
+      appBar: AppBar(centerTitle: true, backgroundColor: Colors.teal, title: const Text("Hive Database", style: TextStyle(color: Colors.white))),
       body: ListView.builder(
         itemCount: ourTask.length,
-
         itemBuilder: (context, index) {
           var currentItem = ourTask[index];
           return Card(
-            color: Colors.tealAccent,
+            margin: const EdgeInsets.all(8),
+            color: Colors.tealAccent.shade100,
             child: ListTile(
-              leading: Container(
-                alignment: Alignment.center,
-                child: Text("${index +1}", style: TextStyle(fontSize: 20),),
-                height: 120,
-                width: 50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.teal,
-                ),
-              ),
-              title: Text(
-                currentItem['task'],
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
-              ),
-              subtitle: Text(currentItem['task']),
+              title: Text(currentItem['title'] ?? '', style: const TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: Text(currentItem['task'] ?? ''),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                IconButton(onPressed: (){
-                  showAddNoteSheet();
-                }, icon: Icon(Icons.edit)),
-                  IconButton(onPressed: (){}, icon: Icon(Icons.delete)),
+                  IconButton(onPressed: () => showAddNoteSheet(key: currentItem['keys']), icon: const Icon(Icons.edit, color: Colors.blue)),
+                  IconButton(onPressed: () => deleteData(currentItem['keys']), icon: const Icon(Icons.delete, color: Colors.red)),
                   Text(
-                    DateFormat('hh:mm a \n dd-MMM-yyyy').format(DateTime.now()),
-                    textAlign: TextAlign.end,
-                    style: const TextStyle(fontSize: 8, color: Colors.grey),
+                    DateFormat('hh:mm a\ndd MMM').format(DateTime.parse(currentItem['time'])),
+                    style: const TextStyle(fontSize: 10),
                   ),
-              ],),
+                ],
+              ),
             ),
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showAddNoteSheet();
-        },
-        // ফাংশন কল করা হলো
+        onPressed: () => showAddNoteSheet(),
         backgroundColor: Colors.teal,
         child: const Icon(Icons.add, color: Colors.white),
       ),
