@@ -76,6 +76,13 @@ class HomePage extends StatelessWidget {
             },
             child: Text("Hive "),
           ),
+
+          ElevatedButton(
+            onPressed: (){
+              Get.to(()=>HiveNoteApp());
+            },
+            child: Text("Slider Package "),
+          ),
         ],
       ),
     );
