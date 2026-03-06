@@ -8,6 +8,7 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:intorduction_screen/main.dart';
 import 'package:get/get.dart';
 
+import '../Carousel Slider/ui.dart';
 import '../Hive CRUD/ui.dart';
 import '../Map/map.dart';
 
@@ -79,7 +80,7 @@ class HomePage extends StatelessWidget {
 
           ElevatedButton(
             onPressed: (){
-              Get.to(()=>HiveNoteApp());
+              Get.to(()=>carouselSlider());
             },
             child: Text("Slider Package "),
           ),
